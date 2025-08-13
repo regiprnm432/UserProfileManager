@@ -6,8 +6,6 @@ Aplikasi manajemen profil pengguna berbasis **ASP.NET Core MVC** dengan fitur up
 
 - Input data pengguna lengkap (identitas, alamat, latar belakang).
 - Upload foto dengan validasi format dan ukuran (JPG/PNG, maksimal 2MB).
-- Validasi pilihan Gender dan Status Perkawinan.
-- Menyimpan data ke database menggunakan **Entity Framework Core**.
 - Menampilkan daftar pengguna yang tersimpan di database.
 - Export data pengguna ke PDF.
 
