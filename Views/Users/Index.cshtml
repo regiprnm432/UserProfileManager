@@ -1,0 +1,91 @@
+@model IEnumerable<UserProfileManager.Models.User>
+@{
+    ViewData["Title"] = "Data Pengguna";
+}
+
+<div class="container py-4">
+    <div class="d-flex align-items-center justify-content-between mb-3">
+        <h2 class="h4 mb-0">@ViewData["Title"]</h2>
+        <a class="btn btn-primary" asp-action="Create">+ Tambah User</a>
+    </div>
+
+    <form method="get" class="row g-2 align-items-center mb-3">
+        <div class="col-sm-8 col-md-6 col-lg-4">
+            <input name="q" value="@(ViewData["q"] as string)" class="form-control"
+                   placeholder="Cari nama / NIK / email..." />
+        </div>
+        <div class="col-auto">
+            <button class="btn btn-outline-secondary" type="submit">Cari</button>
+        </div>
+        @if (!string.IsNullOrWhiteSpace(ViewData["q"] as string))
+        {
+            <div class="col-auto">
+                <a class="btn btn-link" asp-action="Index">Reset</a>
+            </div>
+        }
+    </form>
+
+    <div class="card shadow-sm">
+        <div class="table-responsive">
+            <table class="table align-middle mb-0">
+                <thead class="table-light">
+                    <tr>
+                        <th style="width:72px">Foto</th>
+                        <th>Nama</th>
+                        <th>NIK</th>
+                        <th>Email</th>
+                        <th>Gender</th>
+                        <th>Kota</th>
+                        <th style="width:170px">Aksi</th>
+                    </tr>
+                </thead>
+                <tbody>
+                @if (!Model.Any())
+                {
+                    <tr>
+                        <td colspan="7" class="text-center py-4 text-muted">
+                            Belum ada data.
+                        </td>
+                    </tr>
+                }
+                else
+                {
+                    foreach (var u in Model)
+                    {
+                        <tr>
+                            <td>
+                                @if (!string.IsNullOrEmpty(u.PhotoFileName))
+                                {
+                                    <img src="~/uploads/@u.PhotoFileName" alt="Foto"
+                                         class="rounded border object-fit-cover" style="width:56px;height:56px;" />
+                                }
+                                else
+                                {
+                                    <div class="rounded border d-inline-flex align-items-center justify-content-center"
+                                         style="width:56px;height:56px;background:#f8f9fa;">
+                                        <span class="text-muted small">N/A</span>
+                                    </div>
+                                }
+                            </td>
+                            <td>
+                                <div class="fw-semibold">@u.FullName</div>
+                                <div class="text-muted small">Dibuat @u.CreatedAt.ToLocalTime().ToString("dd MMM yyyy HH:mm")</div>
+                            </td>
+                            <td>@u.NIK</td>
+                            <td>@u.Email</td>
+                            <td>@u.Gender</td>
+                            <td>@u.City</td>
+                            <td>
+                                <div class="btn-group">
+                                    <a class="btn btn-sm btn-outline-secondary" asp-action="Details" asp-route-id="@u.Id">Detail</a>
+                                    <a class="btn btn-sm btn-success" asp-action="ExportPdf" asp-route-id="@u.Id">Export PDF</a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
